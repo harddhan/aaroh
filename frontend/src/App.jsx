@@ -1024,12 +1024,12 @@ export default function App() {
               aria-hidden="true"
             />
             {[
-              { id: 'home', num: '01', label: t.nav.home.replace(/^\d+\s*/, '') },
-              { id: 'exhibits', num: '02', label: t.nav.exhibits.replace(/^\d+\s*/, '') },
-              { id: 'research', num: '03', label: t.nav.research.replace(/^\d+\s*/, '') },
-              { id: 'timeline', num: '04', label: t.nav.timeline.replace(/^\d+\s*/, '') },
-              { id: 'places', num: '05', label: t.nav.places.replace(/^\d+\s*/, '') },
-              { id: 'artifacts', num: '06', label: t.nav.library.replace(/^\d+\s*/, '') },
+              { id: 'home', num: '01', label: t.nav.home.replace(/^\d+\s*/, ''), short: language === 'HI' ? 'मुख्य' : 'Home' },
+              { id: 'exhibits', num: '02', label: t.nav.exhibits.replace(/^\d+\s*/, ''), short: language === 'HI' ? 'पुरालेख' : 'Archive' },
+              { id: 'research', num: '03', label: t.nav.research.replace(/^\d+\s*/, ''), short: language === 'HI' ? 'एआई' : 'AI' },
+              { id: 'timeline', num: '04', label: t.nav.timeline.replace(/^\d+\s*/, ''), short: language === 'HI' ? 'कालक्रम' : 'Timeline' },
+              { id: 'places', num: '05', label: t.nav.places.replace(/^\d+\s*/, ''), short: language === 'HI' ? 'स्थल' : 'Places' },
+              { id: 'artifacts', num: '06', label: t.nav.library.replace(/^\d+\s*/, ''), short: language === 'HI' ? 'ग्रंथ' : 'Library' },
             ].map((item, index, arr) => (
               <span key={item.id} className="aaroh-bottom-nav-unit">
                 <button
@@ -1039,7 +1039,9 @@ export default function App() {
                   onClick={() => navigateTo(item.id)}
                   aria-current={view === item.id ? 'page' : undefined}
                 >
-                  <span className="nav-num">{item.num}</span> <span>{item.label}</span>
+                  <span className="nav-num">{item.num}</span>{' '}
+                  <span className="nav-label-full">{item.label}</span>
+                  <span className="nav-label-short">{item.short}</span>
                 </button>
                 {index < arr.length - 1 && (
                   <span className="aaroh-bottom-nav-tick">|</span>
@@ -1307,7 +1309,10 @@ function HomeEditorial({
                       <Landmark size={15} />
                     </div>
                     <div className="aaroh-source-tab-text">
-                      <span className="aaroh-source-tab-title">{t.hero.modeArchive || 'AAROH Archive'}</span>
+                      <span className="aaroh-source-tab-title">
+                        <span className="source-title-full">{t.hero.modeArchive || 'AAROH Archive'}</span>
+                        <span className="source-title-short">{language === 'HI' ? 'पुरालेख' : 'Archive'}</span>
+                      </span>
                       <span className="aaroh-source-tab-sub">{t.hero.modeArchiveSub || 'Curated historical sources'}</span>
                     </div>
                   </button>
@@ -1325,7 +1330,10 @@ function HomeEditorial({
                       <Globe2 size={15} />
                     </div>
                     <div className="aaroh-source-tab-text">
-                      <span className="aaroh-source-tab-title">{t.hero.modeWeb || 'Web Search'}</span>
+                      <span className="aaroh-source-tab-title">
+                        <span className="source-title-full">{t.hero.modeWeb || 'Web Search'}</span>
+                        <span className="source-title-short">{language === 'HI' ? 'वेब' : 'Web'}</span>
+                      </span>
                       <span className="aaroh-source-tab-sub">{t.hero.modeWebSub || 'Information from across the web'}</span>
                     </div>
                   </button>
@@ -1648,9 +1656,9 @@ function HomeEditorial({
         </div>
       </section>
 
-      {/* ── 6 EDITORIAL EXHIBITION FEATURE PANELS STRIP ── */}
+      {/* ── 5 EDITORIAL EXHIBITION FEATURE PANELS STRIP (02-06) ── */}
       <section className="aaroh-editorial-panels-strip" aria-label="AAROH Core Features">
-        {/* Feature 01: Explore Archive */}
+        {/* Feature 02: Explore Archive */}
         <div
           className="aaroh-editorial-panel-card"
           onClick={() => onNavigate('exhibits')}
@@ -1659,7 +1667,7 @@ function HomeEditorial({
           title="Explore the Digital Heritage Archive"
         >
           <div className="aaroh-panel-top-row">
-            <span className="aaroh-panel-num">01</span>
+            <span className="aaroh-panel-num">02</span>
             <span className="aaroh-panel-arrow">→</span>
           </div>
           <h3 className="aaroh-panel-title">{t.panels.p1Title}</h3>
@@ -1672,7 +1680,7 @@ function HomeEditorial({
           </div>
         </div>
 
-        {/* Feature 02: AI Assistant */}
+        {/* Feature 03: AI Assistant */}
         <div
           className="aaroh-editorial-panel-card"
           onClick={() => onNavigate('research')}
@@ -1681,7 +1689,7 @@ function HomeEditorial({
           title="Open AI Research Desk"
         >
           <div className="aaroh-panel-top-row">
-            <span className="aaroh-panel-num">02</span>
+            <span className="aaroh-panel-num">03</span>
             <span className="aaroh-panel-arrow">→</span>
           </div>
           <h3 className="aaroh-panel-title">{t.panels.p2Title}</h3>
@@ -1692,7 +1700,7 @@ function HomeEditorial({
           </div>
         </div>
 
-        {/* Feature 03: Chronological Timeline */}
+        {/* Feature 04: Chronological Timeline */}
         <div
           className="aaroh-editorial-panel-card"
           onClick={() => onNavigate('timeline')}
@@ -1701,7 +1709,7 @@ function HomeEditorial({
           title="Examine Historical Timeline"
         >
           <div className="aaroh-panel-top-row">
-            <span className="aaroh-panel-num">03</span>
+            <span className="aaroh-panel-num">04</span>
             <span className="aaroh-panel-arrow">→</span>
           </div>
           <h3 className="aaroh-panel-title">{t.panels.p3Title}</h3>
@@ -1712,7 +1720,7 @@ function HomeEditorial({
           </div>
         </div>
 
-        {/* Feature 04: Key Places & Atlas */}
+        {/* Feature 05: Key Places & Atlas */}
         <div
           className="aaroh-editorial-panel-card"
           onClick={() => onNavigate('places')}
@@ -1721,7 +1729,7 @@ function HomeEditorial({
           title="Explore Historical Atlas & Key Places"
         >
           <div className="aaroh-panel-top-row">
-            <span className="aaroh-panel-num">04</span>
+            <span className="aaroh-panel-num">05</span>
             <span className="aaroh-panel-arrow">→</span>
           </div>
           <h3 className="aaroh-panel-title">{t.panels.p4Title}</h3>
@@ -1732,7 +1740,7 @@ function HomeEditorial({
           </div>
         </div>
 
-        {/* Feature 05: Digital Library (BAWS 19 Volumes) */}
+        {/* Feature 06: Digital Library (BAWS 19 Volumes) */}
         <div
           className="aaroh-editorial-panel-card"
           onClick={() => onNavigate('artifacts')}
@@ -1741,7 +1749,7 @@ function HomeEditorial({
           title="Access Complete 19 Volumes of Writings & Speeches"
         >
           <div className="aaroh-panel-top-row">
-            <span className="aaroh-panel-num">05</span>
+            <span className="aaroh-panel-num">06</span>
             <span className="aaroh-panel-arrow">→</span>
           </div>
           <h3 className="aaroh-panel-title">{t.panels.p5Title}</h3>
@@ -1749,26 +1757,6 @@ function HomeEditorial({
           <div className="aaroh-panel-thumb-wrap">
             <img src="/assets/archive/castes-in-india-1917.png" alt="Digital Library" />
             <span className="aaroh-panel-watermark-1946">19 VOLS</span>
-          </div>
-        </div>
-
-        {/* Feature 06: Constitutional Vault */}
-        <div
-          className="aaroh-editorial-panel-card"
-          onClick={() => onNavigate('exhibits')}
-          role="button"
-          tabIndex={0}
-          title="Examine Constitutional Drafting Records & Preamble"
-        >
-          <div className="aaroh-panel-top-row">
-            <span className="aaroh-panel-num">06</span>
-            <span className="aaroh-panel-arrow">→</span>
-          </div>
-          <h3 className="aaroh-panel-title">{t.panels.p6Title}</h3>
-          <p className="aaroh-panel-desc">{t.panels.p6Desc}</p>
-          <div className="aaroh-panel-thumb-wrap">
-            <img src="/assets/archive/constitution-preamble.jpg" alt="Constitutional Vault" />
-            <span className="aaroh-panel-watermark-1946">1950</span>
           </div>
         </div>
       </section>
@@ -2019,7 +2007,7 @@ function ExploreArchiveEditorial({ onOpenArtifact, onAskAi, t, language = 'EN' }
       <div className="aaroh-archive-layout-grid">
         {/* Left Column: Editorial Section Identity & Live Counts */}
         <aside className="aaroh-editorial-section-col" aria-label="Archive Overview">
-          <div className="aaroh-huge-number">01</div>
+          <div className="aaroh-huge-number">02</div>
           <h2 className="aaroh-section-title-large">{t?.archivePage?.title || 'EXPLORE ARCHIVE'}</h2>
           <p className="aaroh-section-desc-editorial">
             {t?.archivePage?.desc || 'Writings, speeches, letters, books, articles and more from verified sources.'}
@@ -2779,9 +2767,9 @@ function TimelineEditorial({
       </div>
 
       <div className="aaroh-timeline-editorial-grid">
-        {/* Left Column: Huge 03 & Milestone Rail */}
+        {/* Left Column: Huge 04 & Milestone Rail */}
         <div className="aaroh-editorial-section-col">
-          <div className="aaroh-huge-number">03</div>
+          <div className="aaroh-huge-number">04</div>
           <h2 className="aaroh-section-title-large">{t.timelinePage.title}</h2>
           <p className="aaroh-section-desc-editorial">{t.timelinePage.desc}</p>
 
@@ -3019,9 +3007,9 @@ function KeyPlacesEditorial({
       </div>
 
       <div className="aaroh-places-editorial-grid">
-        {/* Left Column: Huge 04 & Locations Index */}
+        {/* Left Column: Huge 05 & Locations Index */}
         <div className="aaroh-editorial-section-col">
-          <div className="aaroh-huge-number">04</div>
+          <div className="aaroh-huge-number">05</div>
           <h2 className="aaroh-section-title-large">{t.placesPage.title}</h2>
           <p className="aaroh-section-desc-editorial">{t.placesPage.desc}</p>
 

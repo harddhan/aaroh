@@ -2118,7 +2118,7 @@ a {
 ==================================================== */
 .aaroh-editorial-panels-strip {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   border-top: 1px solid var(--ac-border);
   border-bottom: 1px solid var(--ac-border);
   background: #FFFDF8;
@@ -2330,20 +2330,6 @@ a {
   }
 }
 
-/* Narrow Displays (<= 860px) */
-@media (max-width: 860px) {
-  .aaroh-kiosk-mode .aaroh-home-hero-grid {
-    grid-template-columns: 1fr;
-  }
-  .aaroh-kiosk-mode .aaroh-hero-left-editorial,
-  .aaroh-kiosk-mode .aaroh-hero-right-editorial {
-    display: none;
-  }
-  .aaroh-kiosk-mode .aaroh-editorial-panels-strip {
-    grid-template-columns: repeat(2, 1fr);
-    height: auto;
-  }
-}
 /* ====================================================
    01 EXPLORE ARCHIVE PAGE (Panel 01 Reference)
    Digital Heritage Research Archive & Curatorial Index
@@ -5101,6 +5087,14 @@ a {
   overflow-x: auto;
   margin-bottom: 24px;
   padding-bottom: 4px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+.aaroh-library-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .aaroh-library-tab-btn {
@@ -5907,84 +5901,120 @@ a {
 }
 
 /* ====================================================
-   RESPONSIVE DESIGN (Desktop, Tablet, Mobile)
+   RESPONSIVE DESIGN (iPad, Tablet, Mobile)
 ==================================================== */
-@media (max-width: 1024px) {
-  .aaroh-home-hero-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  
-  .aaroh-hero-left-editorial {
-    order: 2;
-    max-width: 440px;
-    margin: 0 auto;
-  }
-  
-  .aaroh-hero-center-stage {
-    order: 1;
-    max-width: 100%;
-  }
-  
-  .aaroh-hero-right-editorial {
-    order: 3;
-    max-width: 440px;
-    margin: 0 auto;
-  }
-  
-  .aaroh-editorial-panels-strip {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .aaroh-editorial-panel-card:nth-child(2) {
-    border-right: none;
-  }
-  
-  .aaroh-editorial-panel-card:nth-child(-n+2) {
-    border-bottom: 1px solid var(--ac-border);
-  }
-  
-  .aaroh-archive-layout-grid,
-  .aaroh-ai-assistant-layout,
-  .aaroh-library-layout {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  
-  .aaroh-editorial-section-col {
-    position: static;
-  }
-  
-  .aaroh-timeline-editorial-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .aaroh-places-editorial-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
-@media (max-width: 768px) {
+/* ── TABLET & IPAD (Landscape & Portrait: <= 1024px) ── */
+@media (max-width: 1024px) {
+  /* Release Kiosk lock on Tablets & iPads so users can scroll naturally */
+  .aaroh-app-shell.aaroh-kiosk-mode {
+    height: auto;
+    min-height: 100dvh;
+    max-height: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 58px;
+  }
+
+  .aaroh-kiosk-home-viewport {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .aaroh-kiosk-home-canvas {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 12px 0 24px;
+    width: min(100% - 32px, 1000px);
+  }
+
+  /* Fixed bottom bar on iPad with proper z-index */
+  .aaroh-app-shell.aaroh-kiosk-mode .aaroh-bottom-editorial-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-top: 0;
+    z-index: 1000;
+  }
+
+  /* Header adjustments on iPad */
   .aaroh-preamble-words {
     display: none;
   }
-  
-  .aaroh-editorial-panels-strip {
-    grid-template-columns: 1fr;
+
+  .aaroh-header-inner {
+    width: min(100% - 32px, 1000px);
   }
-  
-  .aaroh-editorial-panel-card {
-    border-right: none !important;
+
+  /* Hero Section: Center stage primary */
+  .aaroh-home-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .aaroh-hero-center-stage {
+    order: 1;
+    max-width: 680px;
+    height: auto;
+    min-height: auto;
+  }
+
+  .aaroh-persistent-search-container {
+    max-width: 640px;
+  }
+
+  .aaroh-persistent-search-container.is-expanded {
+    max-width: 680px;
+  }
+
+  .aaroh-hero-left-editorial,
+  .aaroh-hero-right-editorial {
+    display: none;
+  }
+
+  /* 6 Feature Panels on iPad: 3 cards x 2 rows */
+  .aaroh-editorial-panels-strip {
+    grid-template-columns: repeat(3, 1fr);
+    height: auto;
+    min-height: auto;
+    border-top: 1px solid var(--ac-border);
     border-bottom: 1px solid var(--ac-border);
   }
-  
-  .ac-lightbox-body {
-    grid-template-columns: 1fr;
+
+  .aaroh-editorial-panel-card {
+    height: auto;
+    min-height: 140px;
+    padding: 14px 16px;
+    border-right: 1px solid var(--ac-border);
+    border-bottom: 1px solid var(--ac-border);
   }
-  
-  .aaroh-bottom-nav-left .aaroh-bottom-nav-brand,
-  .aaroh-bottom-nav-left .aaroh-bottom-nav-tick,
-  .aaroh-bottom-nav-left .aaroh-github-pill {
+
+  .aaroh-editorial-panel-card:nth-child(3n) {
+    border-right: none;
+  }
+
+  .aaroh-editorial-panel-card:nth-child(n+4) {
+    border-bottom: none;
+  }
+
+  /* Bottom Nav on iPad: scrollable tabs, hide redundant brand */
+  .aaroh-bottom-nav-inner {
+    width: min(100% - 32px, 1000px);
+    gap: 12px;
+  }
+
+  .aaroh-bottom-nav-brand {
     display: none;
   }
 
@@ -5993,26 +6023,727 @@ a {
     flex: 1;
     width: 100%;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px;
   }
-  
+
   .aaroh-bottom-nav-items::-webkit-scrollbar {
     display: none;
   }
-  
-  .aaroh-bottom-nav-brand {
-    display: none;
+
+  /* Subpages: Explore Archive, AI Assistant, Timeline, Places, Library */
+  .aaroh-page-container {
+    width: min(100% - 32px, 1000px);
+    padding: 20px 0 74px;
+  }
+
+  .aaroh-archive-layout-grid,
+  .aaroh-ai-assistant-layout,
+  .aaroh-library-layout,
+  .aaroh-timeline-editorial-grid,
+  .aaroh-places-editorial-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .aaroh-archive-layout-grid > *,
+  .aaroh-ai-assistant-layout > *,
+  .aaroh-library-layout > *,
+  .aaroh-timeline-editorial-grid > *,
+  .aaroh-places-editorial-grid > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .aaroh-editorial-section-col,
+  .aaroh-ai-editorial-col {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .aaroh-ai-suggested-cards-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Lightbox modal on iPad */
+  .ac-artifact-lightbox {
+    width: min(94vw, 860px);
+    max-height: 88vh;
+  }
+
+  .ac-lightbox-body {
+    grid-template-columns: 1fr;
+  }
+
+  .ac-zoom-viewport {
+    padding: 16px;
+    min-height: 260px;
+  }
+
+  .ac-lightbox-related-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 520px) {
+/* ── Helper display classes for responsive labels ── */
+.nav-label-short {
+  display: none;
+}
+.nav-label-full {
+  display: inline;
+}
+.source-title-short {
+  display: none;
+}
+.source-title-full {
+  display: inline;
+}
+
+/* ── MOBILE PHONES & PHABLETS (<= 768px) ── */
+@media (max-width: 768px) {
+  /* Prevent horizontal page overflow globally */
+  html, body, #root {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+  }
+
+  .aaroh-app-shell {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+  }
+
+  .aaroh-view-stage {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+  }
+
+  /* Responsive Text Swaps */
+  .source-title-full {
+    display: none !important;
+  }
+  .source-title-short {
+    display: inline !important;
+  }
+  .nav-label-full {
+    display: none !important;
+  }
+  .nav-label-short {
+    display: inline !important;
+  }
+
+  /* Header on Mobile */
+  .aaroh-editorial-header {
+    height: 48px;
+    min-height: 48px;
+  }
+
+  .aaroh-header-inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 12px !important;
+    gap: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-brand-title {
+    font-size: 16.5px !important;
+  }
+
+  .aaroh-brand-tagline {
+    font-size: 8px !important;
+  }
+
+  .aaroh-lang-capsule {
+    padding: 2px 6px !important;
+    font-size: 10.5px !important;
+  }
+
+  /* Watermark background: hide to prevent 380px fixed width bleeding */
+  .aaroh-parliament-watermark-bg {
+    display: none !important;
+  }
+
+  /* Home Canvas & Viewport: strictly fit 100% of viewport with zero overflow */
+  .aaroh-kiosk-home-viewport {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-kiosk-home-canvas {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 10px 12px 20px !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+    gap: 16px !important;
+  }
+
+  /* Hero Grid: clean vertical stack */
+  .aaroh-home-hero-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    gap: 14px !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  .aaroh-hero-center-stage {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-hero-center-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-editorial-title .ask-word {
+    font-size: clamp(19px, 5.5vw, 24px) !important;
+    line-height: 1.1 !important;
+  }
+
+  .aaroh-editorial-title .aaroh-word {
+    font-size: clamp(28px, 8.5vw, 40px) !important;
+    line-height: 1.05 !important;
+  }
+
+  .aaroh-editorial-subtitle {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 4px !important;
+    box-sizing: border-box !important;
+    font-size: 12.5px !important;
+    line-height: 1.4 !important;
+    margin: 4px auto 10px !important;
+    word-break: normal !important;
+  }
+
+  /* Search Container & Bar */
+  .aaroh-persistent-search-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-persistent-search-container.is-expanded {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .aaroh-unified-search-bar {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 44px !important;
+    padding: 3px 5px !important;
+    gap: 4px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Mode selector tabs on mobile */
+  .aaroh-source-mode-selector {
+    display: flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+    padding: 2px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .aaroh-source-tab {
+    min-height: 34px !important;
+    padding: 4px 6px !important;
+    gap: 4px !important;
+  }
+
+  .aaroh-source-tab-title {
+    font-size: 10.5px !important;
+    letter-spacing: 0 !important;
+  }
+
+  .aaroh-source-tab-sub {
+    display: none !important;
+  }
+
+  .aaroh-search-divider {
+    height: 20px !important;
+    margin: 0 !important;
+  }
+
+  .aaroh-search-input-wrap {
+    flex: 1 !important;
+    min-width: 0 !important;
+    padding: 0 4px !important;
+    gap: 4px !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-search-input-wrap input {
+    font-size: 16px !important; /* Critical iOS Safari fix: prevents automatic zoom on input focus */
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .aaroh-submit-search-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Category chips: clean horizontally touch-scrollable rail with NO visible scrollbar */
+  .aaroh-editorial-chips-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    margin: 8px auto 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    align-items: stretch !important;
+  }
+
+  .aaroh-chips-row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    gap: 6px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    justify-content: flex-start !important;
+    padding: 2px 2px 6px 2px !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-chips-row::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .aaroh-editorial-chip {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    font-size: 11px !important;
+    padding: 5px 9px !important;
+  }
+
+  /* Feature Panels on Phones: 2 columns on 481-768px */
+  .aaroh-editorial-panels-strip {
+    grid-template-columns: repeat(2, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-editorial-panel-card {
+    min-height: 120px !important;
+    padding: 10px 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-editorial-panel-card:nth-child(odd) {
+    border-right: 1px solid var(--ac-border) !important;
+  }
+
+  .aaroh-editorial-panel-card:nth-child(even) {
+    border-right: none !important;
+  }
+
+  .aaroh-editorial-panel-card:nth-child(1),
+  .aaroh-editorial-panel-card:nth-child(2),
+  .aaroh-editorial-panel-card:nth-child(3),
+  .aaroh-editorial-panel-card:nth-child(4) {
+    border-bottom: 1px solid var(--ac-border) !important;
+  }
+
+  .aaroh-editorial-panel-card:nth-child(5),
+  .aaroh-editorial-panel-card:nth-child(6) {
+    border-bottom: none !important;
+  }
+
+  .aaroh-panel-thumb-wrap {
+    height: 72px !important;
+    width: 100% !important;
+  }
+
+  /* Bottom Navigation: fits completely across width with ZERO cut-off */
+  .aaroh-bottom-editorial-nav {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 52px !important;
+    padding-bottom: env(safe-area-inset-bottom, 0) !important;
+    z-index: 1000 !important;
+    background: rgba(245, 241, 232, 0.98) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border-top: 1px solid var(--ac-border) !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .aaroh-bottom-nav-inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 4px !important;
+    gap: 3px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-bottom-nav-left {
+    flex-shrink: 0 !important;
+    margin-right: 2px !important;
+  }
+
+  .aaroh-bottom-nav-left .aaroh-bottom-nav-brand,
+  .aaroh-bottom-nav-left .aaroh-bottom-nav-tick,
+  .aaroh-bottom-nav-left .aaroh-github-pill,
   .aaroh-github-text,
   .aaroh-github-external-icon {
-    display: none;
+    display: none !important;
   }
-  
+
   .aaroh-bottom-github-link {
-    padding: 5px 7px;
-    border-radius: 6px;
+    padding: 5px 6px !important;
+    border-radius: 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .aaroh-bottom-nav-items {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-around !important;
+    flex: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 2px !important;
+    margin: 0 !important;
+    overflow: visible !important;
+  }
+
+  .aaroh-bottom-nav-unit {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    min-width: 0 !important;
+  }
+
+  .aaroh-bottom-nav-tick {
+    display: none !important;
+  }
+
+  .aaroh-bottom-nav-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    padding: 6px 1px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    width: 100% !important;
+    letter-spacing: -0.01em !important;
+    text-align: center !important;
+  }
+
+  .aaroh-bottom-nav-link .nav-num {
+    font-size: 8.5px !important;
+    opacity: 0.75 !important;
+  }
+
+  /* Subpages */
+  .aaroh-page-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 14px 12px 76px !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .aaroh-archive-top-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-archive-search-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-archive-search-box input {
+    font-size: 16px !important; /* Prevents iOS auto-zoom */
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .aaroh-filter-btn {
+    justify-content: center !important;
+    padding: 8px 14px !important;
+  }
+
+  .aaroh-timeline-filters-row,
+  .aaroh-places-category-bar,
+  .aaroh-library-tabs {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding-bottom: 4px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .aaroh-timeline-filters-row::-webkit-scrollbar,
+  .aaroh-places-category-bar::-webkit-scrollbar,
+  .aaroh-library-tabs::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .aaroh-real-map-container {
+    min-height: 320px !important;
+    height: 340px !important;
+    width: 100% !important;
+  }
+
+  .aaroh-bookshelf-grid {
+    grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)) !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .aaroh-archive-cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)) !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+}
+
+/* ── COMPACT MOBILE PHONES (<= 480px, e.g. iPhone SE, iPhone 12/13/14/15/16) ── */
+@media (max-width: 480px) {
+  .aaroh-header-inner {
+    padding: 0 10px !important;
+  }
+
+  .aaroh-brand-title {
+    font-size: 15.5px !important;
+  }
+
+  .aaroh-brand-tagline {
+    display: none !important; /* Hide tagline on narrowest screens for clean single-line header */
+  }
+
+  .aaroh-editorial-title .ask-word {
+    font-size: 20px !important;
+  }
+
+  .aaroh-editorial-title .aaroh-word {
+    font-size: 32px !important;
+  }
+
+  .aaroh-editorial-subtitle {
+    font-size: 12px !important;
+    margin-top: 4px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .aaroh-unified-search-bar {
+    min-height: 42px !important;
+    padding: 2px 4px !important;
+    gap: 3px !important;
+    border-radius: 12px !important;
+  }
+
+  .aaroh-source-tab {
+    padding: 3px 5px !important;
+    gap: 3px !important;
+    min-height: 32px !important;
+  }
+
+  .aaroh-source-tab-title {
+    font-size: 9.5px !important;
+  }
+
+  .aaroh-submit-search-btn {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+  }
+
+  /* Single Column Feature Panels on Compact Mobile */
+  .aaroh-editorial-panels-strip {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    border-left: 1px solid var(--ac-border) !important;
+    border-right: 1px solid var(--ac-border) !important;
+  }
+
+  .aaroh-editorial-panel-card {
+    border-right: none !important;
+    border-bottom: 1px solid var(--ac-border) !important;
+    padding: 12px 14px !important;
+    min-height: auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-editorial-panel-card:last-child {
+    border-bottom: none !important;
+  }
+
+  .aaroh-panel-thumb-wrap {
+    height: 76px !important;
+    width: 100% !important;
+  }
+
+  /* AI Assistant Search & Mode */
+  .aaroh-ai-unified-search-bar {
+    flex-wrap: wrap !important;
+    padding: 6px !important;
+  }
+
+  .aaroh-ai-mode-selector {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  .aaroh-ai-suggested-cards-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .aaroh-ai-inline-scroll-area {
+    padding: 14px 12px !important;
+  }
+
+  /* Web Overview & Search Results on Mobile */
+  .aaroh-web-overview-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .aaroh-overview-top-bar {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .aaroh-overview-brand-group {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+
+  .aaroh-overview-sources-carousel {
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    width: 100% !important;
+  }
+
+  .aaroh-overview-sources-carousel::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Lightbox */
+  .ac-artifact-lightbox {
+    width: 96vw !important;
+    max-height: 88vh !important;
+  }
+
+  .ac-lightbox-top {
+    padding: 10px 12px !important;
+  }
+
+  .ac-lightbox-top h3 {
+    font-size: 15px !important;
+  }
+
+  .ac-lightbox-metadata-col {
+    padding: 14px 12px !important;
+  }
+
+  .ac-lightbox-related-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+}
+
+/* ── ULTRA-COMPACT MOBILE (<= 380px, e.g. iPhone SE 375px, 320px) ── */
+@media (max-width: 380px) {
+  .aaroh-bottom-editorial-nav {
+    height: 48px !important;
+  }
+
+  .aaroh-bottom-nav-inner {
+    padding: 0 2px !important;
+    gap: 2px !important;
+  }
+
+  .aaroh-bottom-github-link {
+    padding: 4px !important;
+    border-radius: 5px !important;
+  }
+
+  .aaroh-bottom-nav-items {
+    gap: 1px !important;
+  }
+
+  .aaroh-bottom-nav-link {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 2px 0 !important;
+    gap: 0 !important;
+    line-height: 1.05 !important;
+  }
+
+  .aaroh-bottom-nav-link .nav-num {
+    font-size: 8px !important;
+    line-height: 1 !important;
+  }
+
+  .aaroh-bottom-nav-link .nav-label-short {
+    font-size: 8px !important;
+    line-height: 1 !important;
+    letter-spacing: -0.02em !important;
   }
 }
 
