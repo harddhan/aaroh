@@ -4,6 +4,7 @@
   "private": true,
   "description": "AAROH: Digital Heritage Archive for Memorials, Manuscripts & Ambedkar - AI-Powered Institutional Archive and Audio-Visual Knowledge Platform (Problem Statement 26096)",
   "scripts": {
+    "postinstall": "npm --prefix frontend install",
     "dev": "npm --prefix frontend run dev",
     "build": "npm --prefix frontend run build",
     "preview": "npm --prefix frontend run preview",

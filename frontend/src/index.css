@@ -1386,32 +1386,262 @@ a {
   display: none;
 }
 
-/* Search Loading State */
+/* Search Loading State Container */
 .aaroh-search-loading-state {
-  padding: clamp(14px, 2dvh, 20px) clamp(10px, 1.2vw, 16px);
+  padding: clamp(14px, 2dvh, 20px) clamp(12px, 1.4vw, 18px);
   display: flex;
   align-items: center;
-  gap: 12px;
+  background: rgba(255, 253, 248, 0.92);
+  border: 1px solid rgba(18, 63, 107, 0.12);
+  border-radius: var(--ac-radius-md);
+  box-shadow: 0 4px 18px rgba(18, 63, 107, 0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: aarohFadeUp 0.3s var(--motion-ease-decelerate) both;
 }
 
-.aaroh-search-loading-text {
+/* ====================================================
+   ARCHIVAL AI LOADING COMPONENT (Progress Ring & Shimmer)
+==================================================== */
+.aaroh-archival-loading-unit {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.4vw, 16px);
+  width: 100%;
+}
+
+/* Cluster containing Orbit, Halo, and Center Gem */
+.aaroh-orbit-cluster {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Soft ambient pulsating glow halo behind the ring */
+.aaroh-orbit-halo {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(14, 134, 155, 0.24) 0%, rgba(18, 63, 107, 0.08) 55%, transparent 75%);
+  animation: aarohHaloBreathe 2.6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.aaroh-archival-loading-unit.is-archive-mode .aaroh-orbit-halo {
+  background: radial-gradient(circle, rgba(194, 139, 56, 0.22) 0%, rgba(18, 63, 107, 0.08) 55%, transparent 75%);
+}
+
+@keyframes aarohHaloBreathe {
+  0%, 100% {
+    transform: scale(0.9);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.95;
+  }
+}
+
+/* Rotating SVG Orbit Ring */
+.aaroh-orbit-svg {
+  position: relative;
+  z-index: 1;
+  animation: aarohOrbitRotate 2s linear infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+@keyframes aarohOrbitRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Subtle Base Track */
+.aaroh-orbit-track {
+  stroke: rgba(18, 63, 107, 0.1);
+  transition: stroke 0.3s ease;
+}
+
+.aaroh-archival-loading-unit.is-web-mode .aaroh-orbit-track {
+  stroke: rgba(14, 134, 155, 0.14);
+}
+
+/* Sweeping Gradient Progress Ring Arc */
+.aaroh-orbit-ring {
+  stroke-dasharray: 55 85;
+  stroke-dashoffset: 0;
+  animation: aarohRingDash 2.4s ease-in-out infinite;
+  will-change: stroke-dasharray, stroke-dashoffset;
+}
+
+@keyframes aarohRingDash {
+  0% {
+    stroke-dasharray: 16 85;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 62 85;
+    stroke-dashoffset: -20;
+  }
+  100% {
+    stroke-dasharray: 16 85;
+    stroke-dashoffset: -85;
+  }
+}
+
+/* Orbiting Satellite Particle Node with Soft Teal Glow */
+.aaroh-orbit-satellite {
+  filter: drop-shadow(0 0 3px rgba(75, 185, 204, 0.8));
+  animation: aarohSatelliteGaze 2.4s ease-in-out infinite;
+}
+
+.aaroh-archival-loading-unit.is-archive-mode .aaroh-orbit-satellite {
+  filter: drop-shadow(0 0 3px rgba(229, 190, 107, 0.8));
+}
+
+@keyframes aarohSatelliteGaze {
+  0%, 100% {
+    opacity: 0.75;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* Inner Signature AAROH Diamond Core */
+.aaroh-orbit-center-gem {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: #123F6B;
+  border-radius: 1px;
+  transform: rotate(45deg);
+  z-index: 2;
+  box-shadow: 0 0 5px rgba(18, 63, 107, 0.25);
+  animation: aarohGemPulse 2.6s ease-in-out infinite;
+}
+
+.aaroh-archival-loading-unit.is-web-mode .aaroh-orbit-center-gem {
+  background: #0E869B;
+  box-shadow: 0 0 6px rgba(14, 134, 155, 0.45);
+}
+
+.aaroh-archival-loading-unit.is-archive-mode .aaroh-orbit-center-gem {
+  background: #C28B38;
+  box-shadow: 0 0 6px rgba(194, 139, 56, 0.45);
+}
+
+@keyframes aarohGemPulse {
+  0%, 100% {
+    transform: rotate(45deg) scale(0.85);
+    opacity: 0.75;
+  }
+  50% {
+    transform: rotate(225deg) scale(1.18);
+    opacity: 1;
+  }
+}
+
+/* Text Container */
+.aaroh-loading-meta {
   display: flex;
   flex-direction: column;
-  line-height: 1.2;
+  gap: 3px;
+  min-width: 0;
+  line-height: 1.25;
 }
 
-.aaroh-loading-title {
+/* Shimmering Animated Text for Web Search Synthesis */
+.aaroh-loading-title-animated {
   font-family: var(--ac-font);
-  font-size: clamp(12px, 0.84vw, 13.5px);
+  font-size: clamp(12.5px, 0.88vw, 14px);
   font-weight: 700;
-  color: var(--ac-primary);
+  line-height: 1.25;
+  letter-spacing: 0.015em;
+  display: inline-flex;
+  align-items: center;
 }
 
-.aaroh-loading-sub {
+.aaroh-loading-title-animated.is-web-synthesis {
+  background: linear-gradient(
+    90deg,
+    #123F6B 0%,
+    #0E869B 22%,
+    #2E9CB1 48%,
+    #123F6B 72%,
+    #0E869B 100%
+  );
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: aarohWebShimmer 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+             aarohTextGazePulse 3.2s ease-in-out infinite;
+  will-change: background-position, opacity;
+}
+
+@keyframes aarohWebShimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -140% 0;
+  }
+}
+
+.aaroh-loading-title-animated.is-archive-retrieval {
+  background: linear-gradient(
+    90deg,
+    #123F6B 0%,
+    #C28B38 30%,
+    #E5BE6B 50%,
+    #123F6B 70%,
+    #C28B38 100%
+  );
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: aarohArchiveShimmer 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+             aarohTextGazePulse 3.2s ease-in-out infinite;
+  will-change: background-position, opacity;
+}
+
+@keyframes aarohArchiveShimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -140% 0;
+  }
+}
+
+@keyframes aarohTextGazePulse {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Subtitle */
+.aaroh-loading-subtitle-muted {
   font-family: var(--ac-font);
-  font-size: clamp(10px, 0.7vw, 11px);
-  font-weight: 400;
-  color: #718096;
+  font-size: clamp(10.5px, 0.74vw, 11.5px);
+  color: #64748B;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  opacity: 0.9;
 }
 
 /* Overview inside Inline Flow */
@@ -3595,37 +3825,12 @@ a {
 .aaroh-ai-loading-box {
   display: flex;
   align-items: center;
-  gap: 14px;
   background: #FFFDF8;
-  border: 1px solid #DED6C8;
+  border: 1px solid rgba(14, 134, 155, 0.24);
   border-radius: 8px;
-  padding: 18px 22px;
-  box-shadow: 0 2px 8px rgba(13, 23, 32, 0.04);
-}
-
-.aaroh-ai-spinner {
-  color: #123F6B;
-  animation: spin 1s linear infinite;
-  flex-shrink: 0;
-}
-
-.aaroh-ai-loading-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.aaroh-ai-loading-head {
-  font-family: var(--ac-font);
-  font-size: 13px;
-  font-weight: 600;
-  color: #123F6B;
-}
-
-.aaroh-ai-loading-detail {
-  font-family: var(--ac-font);
-  font-size: 11px;
-  color: #64748B;
+  padding: 16px 20px;
+  box-shadow: 0 4px 16px rgba(18, 63, 107, 0.04);
+  animation: aarohFadeUp 0.3s var(--motion-ease-decelerate) both;
 }
 
 .aaroh-ai-empty-desk-card {

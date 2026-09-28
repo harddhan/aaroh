@@ -1070,6 +1070,92 @@ export default function App() {
   )
 }
 
+// ----------------------------------------------------
+// ARCHIVAL AI PROGRESS RING & SHIMMER LOADING INDICATOR
+// Glowing blue/teal progress orbit ring + breathing AAROH diamond core
+// with subtly shifting shimmering status text
+// ----------------------------------------------------
+function ArchivalAiLoadingIndicator({
+  mode = 'web',
+  title,
+  subtitle,
+}) {
+  const isWeb = mode === 'web'
+  return (
+    <div
+      className={`aaroh-archival-loading-unit ${isWeb ? 'is-web-mode' : 'is-archive-mode'}`}
+      role="status"
+      aria-live="polite"
+    >
+      {/* Glowing Orbital Progress Ring */}
+      <div className="aaroh-orbit-cluster" aria-hidden="true">
+        <div className="aaroh-orbit-halo" />
+        <svg
+          className="aaroh-orbit-svg"
+          viewBox="0 0 36 36"
+          width="28"
+          height="28"
+        >
+          <defs>
+            <linearGradient id="aarohOrbitGradWeb" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#123F6B" />
+              <stop offset="45%" stopColor="#0E869B" />
+              <stop offset="80%" stopColor="#30A8BE" />
+              <stop offset="100%" stopColor="#5CD3E6" />
+            </linearGradient>
+            <linearGradient id="aarohOrbitGradArchive" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#123F6B" />
+              <stop offset="50%" stopColor="#C28B38" />
+              <stop offset="100%" stopColor="#F5D580" />
+            </linearGradient>
+          </defs>
+          {/* Subtle Base Track Ring */}
+          <circle
+            className="aaroh-orbit-track"
+            cx="18"
+            cy="18"
+            r="13.5"
+            strokeWidth="2.2"
+            fill="none"
+          />
+          {/* Active Glowing Progress Ring */}
+          <circle
+            className="aaroh-orbit-ring"
+            cx="18"
+            cy="18"
+            r="13.5"
+            strokeWidth="2.4"
+            fill="none"
+            strokeLinecap="round"
+            stroke={`url(#${isWeb ? 'aarohOrbitGradWeb' : 'aarohOrbitGradArchive'})`}
+          />
+          {/* Orbiting Satellite Node */}
+          <circle
+            className="aaroh-orbit-satellite"
+            cx="18"
+            cy="4.5"
+            r="1.8"
+            fill={isWeb ? '#5CD3E6' : '#F5D580'}
+          />
+        </svg>
+        {/* Inner signature AAROH diamond core */}
+        <div className="aaroh-orbit-center-gem" />
+      </div>
+
+      <div className="aaroh-loading-meta">
+        <span className={`aaroh-loading-title-animated ${isWeb ? 'is-web-synthesis' : 'is-archive-retrieval'}`}>
+          {title}
+        </span>
+        {subtitle && (
+          <span className="aaroh-loading-subtitle-muted">
+            {subtitle}
+          </span>
+        )}
+      </div>
+    </div>
+  )
+}
+
 // ====================================================
 // 1. HOME EDITORIAL VIEW (Reference Panel 1)
 // ====================================================
@@ -1301,17 +1387,19 @@ function HomeEditorial({
                 <div className="aaroh-inline-scroll-area">
                   {homepageLoading ? (
                     <div className="aaroh-search-loading-state">
-                      <LoaderCircle size={20} className="ac-spinner" style={{ animation: 'spin 1s linear infinite' }} />
-                      <div className="aaroh-search-loading-text">
-                        <span className="aaroh-loading-title">
-                          {searchMode === 'web'
-                            ? (language === 'HI' ? 'वेब से जानकारी संकलित की जा रही है...' : 'Synthesizing verified web information...')
-                            : (language === 'HI' ? 'आरोह पुरालेख से उत्तर तैयार किया जा रहा है...' : 'Retrieving curated historical sources from AAROH Archive...')}
-                        </span>
-                        <span className="aaroh-loading-sub">
-                          {searchMode === 'web' ? (t.hero.modeWebSub || 'Information from across the web') : (t.hero.modeArchiveSub || 'Curated historical sources')}
-                        </span>
-                      </div>
+                      <ArchivalAiLoadingIndicator
+                        mode={searchMode}
+                        title={
+                          searchMode === 'web'
+                            ? (language === 'HI' ? 'वेब से जानकारी संकलित की जा रही है…' : 'Synthesizing verified web information…')
+                            : (language === 'HI' ? 'आरोह पुरालेख से उत्तर तैयार किया जा रहा है…' : 'Retrieving curated historical sources from AAROH Archive…')
+                        }
+                        subtitle={
+                          searchMode === 'web'
+                            ? (t.hero?.modeWebSub || 'Information from across the web')
+                            : (t.hero?.modeArchiveSub || 'Curated historical sources')
+                        }
+                      />
                     </div>
                   ) : homepageAnswer ? (
                     <div className="aaroh-web-overview-container">
@@ -1348,9 +1436,29 @@ function HomeEditorial({
                         </div>
                       </div>
 
-                      {/* Web Sources Carousel */}
+                      {/* Lead Summary */}
+                      <p className="aaroh-overview-lead-para">{homepageAnswer.summary}</p>
+
+                      {/* Key Takeaways */}
+                      {homepageAnswer.keyTakeaways && homepageAnswer.keyTakeaways.length > 0 && (
+                        <div className="aaroh-overview-takeaways-block">
+                          <h4 className="aaroh-overview-takeaways-title">
+                            <Sparkles size={13} /> Key Historical Takeaways
+                          </h4>
+                          <ul className="aaroh-overview-takeaways-list">
+                            {homepageAnswer.keyTakeaways.map((point, pIdx) => (
+                              <li key={pIdx}>
+                                <span className="takeaway-bullet-num">{pIdx + 1}.</span>
+                                <span>{point}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Web Sources Carousel (Positioned at Bottom of Results) */}
                       {homepageAnswer.webSources && homepageAnswer.webSources.length > 0 && (
-                        <div className="aaroh-overview-sources-section">
+                        <div className="aaroh-overview-sources-section is-bottom-sources">
                           <div className="aaroh-overview-sources-header">
                             <Globe2 size={13} />
                             <span>Verified Web Sources ({homepageAnswer.webSources.length})</span>
@@ -1373,26 +1481,6 @@ function HomeEditorial({
                               </a>
                             ))}
                           </div>
-                        </div>
-                      )}
-
-                      {/* Lead Summary */}
-                      <p className="aaroh-overview-lead-para">{homepageAnswer.summary}</p>
-
-                      {/* Key Takeaways */}
-                      {homepageAnswer.keyTakeaways && homepageAnswer.keyTakeaways.length > 0 && (
-                        <div className="aaroh-overview-takeaways-block">
-                          <h4 className="aaroh-overview-takeaways-title">
-                            <Sparkles size={13} /> Key Historical Takeaways
-                          </h4>
-                          <ul className="aaroh-overview-takeaways-list">
-                            {homepageAnswer.keyTakeaways.map((point, pIdx) => (
-                              <li key={pIdx}>
-                                <span className="takeaway-bullet-num">{pIdx + 1}.</span>
-                                <span>{point}</span>
-                              </li>
-                            ))}
-                          </ul>
                         </div>
                       )}
 
@@ -2331,20 +2419,20 @@ function AiAssistantEditorial({
               <div className="aaroh-ai-inline-scroll-area">
                 {/* Archival Research Loading State */}
                 {loading ? (
-                  <div className="aaroh-ai-loading-box" role="status" aria-live="polite">
-                    <LoaderCircle size={22} className="aaroh-ai-spinner" />
-                    <div className="aaroh-ai-loading-copy">
-                      <span className="aaroh-ai-loading-head">
-                        {searchMode === 'web'
-                          ? (t.aiPage?.loadingWeb || 'Synthesizing verified web information...')
-                          : (t.aiPage?.loadingArchive || 'Retrieving curated historical sources from AAROH Archive...')}
-                      </span>
-                      <span className="aaroh-ai-loading-detail">
-                        {searchMode === 'web'
+                  <div className="aaroh-ai-loading-box">
+                    <ArchivalAiLoadingIndicator
+                      mode={searchMode}
+                      title={
+                        searchMode === 'web'
+                          ? (t.aiPage?.loadingWeb || 'Synthesizing verified web information…')
+                          : (t.aiPage?.loadingArchive || 'Retrieving curated historical sources from AAROH Archive…')
+                      }
+                      subtitle={
+                        searchMode === 'web'
                           ? (t.aiPage?.loadingSubWeb || 'Cross-referencing historical web archives and scholarly records')
-                          : (t.aiPage?.loadingSubArchive || 'Cross-referencing primary writings, speeches and historical volumes')}
-                      </span>
-                    </div>
+                          : (t.aiPage?.loadingSubArchive || 'Cross-referencing primary writings, speeches and historical volumes')
+                      }
+                    />
                   </div>
                 ) : activeAssistantMsg ? (
                   <article className="aaroh-ai-embedded-doc-wrapper" aria-label="Embedded Archival Response">
@@ -2428,34 +2516,6 @@ function AiAssistantEditorial({
                       </div>
                     </div>
 
-                    {/* Web Sources Carousel (When in Web Mode) */}
-                    {activeAssistantMsg.webSources && activeAssistantMsg.webSources.length > 0 && (
-                      <div className="aaroh-overview-sources-section">
-                        <div className="aaroh-overview-sources-header">
-                          <Globe2 size={13} />
-                          <span>Verified Web Sources ({activeAssistantMsg.webSources.length})</span>
-                        </div>
-                        <div className="aaroh-overview-sources-carousel">
-                          {activeAssistantMsg.webSources.map((src, i) => (
-                            <a
-                              key={i}
-                              href={src.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="aaroh-overview-source-chip"
-                            >
-                              <Globe2 size={12} style={{ color: '#123F6B', flexShrink: 0 }} />
-                              <div className="aaroh-overview-source-info">
-                                <span className="aaroh-overview-source-domain">{src.domain || 'archive'}</span>
-                                <span className="aaroh-overview-source-title">{src.title}</span>
-                              </div>
-                              <ExternalLink size={10} style={{ color: '#64748B', marginLeft: 'auto' }} />
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
                     {/* Scholarly Document Layout: Text / Citation / Quotes + Archival Asset */}
                     <div className={`aaroh-ai-doc-grid ${activeAssistantMsg.image ? 'has-media' : 'text-only'}`}>
                       <div className="aaroh-ai-doc-content-col">
@@ -2492,6 +2552,34 @@ function AiAssistantEditorial({
                         </div>
                       )}
                     </div>
+
+                    {/* Web Sources Carousel (Positioned at Bottom of Response) */}
+                    {activeAssistantMsg.webSources && activeAssistantMsg.webSources.length > 0 && (
+                      <div className="aaroh-overview-sources-section is-bottom-sources">
+                        <div className="aaroh-overview-sources-header">
+                          <Globe2 size={13} />
+                          <span>Verified Web Sources ({activeAssistantMsg.webSources.length})</span>
+                        </div>
+                        <div className="aaroh-overview-sources-carousel">
+                          {activeAssistantMsg.webSources.map((src, i) => (
+                            <a
+                              key={i}
+                              href={src.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="aaroh-overview-source-chip"
+                            >
+                              <Globe2 size={12} style={{ color: '#123F6B', flexShrink: 0 }} />
+                              <div className="aaroh-overview-source-info">
+                                <span className="aaroh-overview-source-domain">{src.domain || 'archive'}</span>
+                                <span className="aaroh-overview-source-title">{src.title}</span>
+                              </div>
+                              <ExternalLink size={10} style={{ color: '#64748B', marginLeft: 'auto' }} />
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Provenance & Source Information Footer */}
                     <footer className="aaroh-ai-doc-footer-bar">
