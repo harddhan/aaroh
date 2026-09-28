@@ -1,0 +1,27 @@
+{
+  "name": "aaroh",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AAROH: Digital Heritage Archive for Memorials, Manuscripts & Ambedkar - AI-Powered Institutional Archive and Audio-Visual Knowledge Platform (Problem Statement 26096)",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview",
+    "start": "npm --prefix frontend run preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/harddhan/aaroh.git"
+  },
+  "keywords": [
+    "digital-heritage",
+    "archive",
+    "ambedkar",
+    "ai-research-assistant",
+    "manuscripts",
+    "interactive-kiosk",
+    "problem-statement-26096"
+  ],
+  "author": "AAROH Development Team",
+  "license": "Apache-2.0"
+}

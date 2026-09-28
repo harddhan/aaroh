@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+.pnp
+.pnp.js
+
+# Build & Dist Outputs
+dist/
+frontend/dist/
+build/
+.cache/
+.vite/
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+backend/.venv/
+env/
+venv/
+ENV/
+
+# Environment Variables & Secrets (CRITICAL: Never commit .env)
+.env
+.env.local
+.env.*.local
+backend/.env
+!.env.example
+!backend/.env.example
+
+# Logs & Diagnostics
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Temporary Browser Profiles & Scratch
+temp_chrome_profile/
+*.tmp
