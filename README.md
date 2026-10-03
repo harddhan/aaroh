@@ -6,11 +6,6 @@ AAROH is a digital heritage and research platform for exploring the writings, sp
 
 Built with React, Vite, FastAPI, FAISS, and modern AI retrieval technologies. The project includes a structured archive, interactive heritage map, chronological timeline, AI Research Assistant, and source-aware archival data.
 
-## Open Source Repository
-
-- **GitHub Repository**: [https://github.com/harddhan/aaroh](https://github.com/harddhan/aaroh)
-- **License**: Apache-2.0 Open Source License
-
 ## Run Locally
 
 ```bash
